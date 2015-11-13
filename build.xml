@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== 
+     2015年1月24日 下午4:30:18                                                        
+
+     HadoopBuild    
+     Build for hadoop applications, a runnable jar.
+                   
+     Chunyun                                                                
+     ====================================================================== -->
+
+<project name="HadoopBuild" basedir="." default="init">
+	
+	<path id="lib_classpath">
+        <fileset dir="ext">
+            <include name="*.jar"/>
+        </fileset>
+	</path>
+	
+	<!--
+	要引入第三方包需要在javac中包含下列配置：
+	<classpath refid="lib_classpath"/>
+	-->
+	
+    
+	
+	<property name="src" value="src"></property>
+	<property name="dist" value="dist"></property>
+	<property name="classes" value="classes"></property>
+	
+	<target name="#">
+		
+	
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${classes}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="${src}/com/hd/mapreduce/invert" destdir="${classes}" includeantruntime="false">
+			<classpath refid="lib_classpath"/>
+		</javac>
+	</target>
+	
+	<target name="pack" depends="compile">
+		<tstamp></tstamp>
+		<jar destfile="${dist}/run-${DSTAMP}-invert.jar" basedir="${classes}">
+			<manifest>
+				<attribute name="Build-By" value="${user.name}"/>
+				<attribute name="Main-Class" value="com.hd.mapreduce.invert.InvertIndex"/>
+			</manifest>
+		</jar>
+	</target>
+	
+</project>
